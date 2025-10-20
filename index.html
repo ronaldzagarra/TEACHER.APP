@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEACHER.APP - Plataforma Educativa Moderna</title>
+    <link rel="icon"  href="teacher.app.png" type="image/png"
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* ==================================== */
+        /* ========== ESTILOS GENERALES ========= */
+        /* ==================================== */
+        :root {
+            --primary-color: #3f51b5; /* Azul Índigo */
+            --secondary-color: #ff9800; /* Naranja Ámbar */
+            --text-dark: #212121;
+            --text-light: #f5f5f5;
+            --bg-light: #ffffff;
+            --bg-dark: #e8eaf6; /* Fondo suave para secciones */
+            --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --font-stack: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            color: var(--text-dark);
+        }
+
+        /* Utilidades */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            background: #303f9f; /* Tono más oscuro */
+            transform: translateY(-2px);
+        }
+
+        /* Esconder secciones no activas */
+        .hidden {
+            display: none !important;
+        }
+
+        /* ==================================== */
+        /* ============== HEADER ============== */
+        /* ==================================== */
+        header {
+            background: var(--bg-light);
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .auth-buttons button {
+            margin-left: 10px;
+            padding: 8px 15px;
+            background: var(--secondary-color);
+            color: var(--text-dark);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .auth-buttons button:hover {
+            background: #fb8c00;
+        }
+
+        /* ==================================== */
+        /* ============== HERO ================ */
+        /* ==================================== */
+        .hero-section {
+            height: 80vh; /* Buena altura para ser llamativo */
+            background: url('https://cdn.pixabay.com/photo/2016/11/08/05/10/students-1807505_1280.jpg') no-repeat center center/cover;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6); /* Overlay oscuro para legibilidad */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* ==================================== */
+        /* ======== LOGIN/REGISTRO ============ */
+        /* ==================================== */
+        .auth-modal {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-light);
+            max-width: 400px;
+            margin: 50px auto;
+        }
+
+        .auth-modal h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .switch-auth {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .switch-auth a {
+            color: var(--primary-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* ==================================== */
+        /* ============= DASHBOARD ============ */
+        /* ==================================== */
+        #dashboard-view {
+            padding-top: 50px;
+        }
+
+        #dashboard-view h2 {
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .dashboard-card {
+            background: var(--bg-light);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .dashboard-card h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        /* Estudiantes (CRUD) */
+        #student-list, #task-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .student-item, .task-item {
+            display: flex;
+            align-items: center;
+            background: var(--bg-dark);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .student-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
+        .student-info {
+            flex-grow: 1;
+        }
+
+        .student-info strong {
+            display: block;
+            font-size: 1.1em;
+        }
+
+        .student-actions button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .student-actions .edit { background: #4caf50; color: white; }
+        .student-actions .delete { background: #f44336; color: white; }
+
+        /* Tareas */
+        .task-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .task-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .task-details {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .teacher-info {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .teacher-info img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 8px;
+            object-fit: cover;
+        }
+
+        .send-work-btn {
+            background: #2196f3; /* Azul Claro */
+            color: white;
+        }
+
+        .download-btn {
+            background: var(--secondary-color);
+            color: var(--text-dark);
+            margin-left: 10px;
+        }
+
+        /* Formularios CRUD */
+        #add-student-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        #add-student-form .form-group {
+            margin-bottom: 0;
+        }
+
+        #add-student-form button {
+            grid-column: 1 / -1;
+            width: 100%;
+        }
+
+        /* ==================================== */
+        /* ============ RESPONSIVE ============ */
+        /* ==================================== */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5em;
+            }
+            .hero-content p {
+                font-size: 1.1em;
+            }
+            .navbar {
+                flex-direction: column;
+                padding: 10px 0;
+            }
+            .logo {
+                margin-bottom: 10px;
+            }
+            .auth-buttons button {
+                margin: 0 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <div class="container navbar">
+            <span class="logo">TEACHER.APP</span>
+                        <div class="auth-buttons" id="auth-buttons">
+                <button onclick="showLogin()">Iniciar Sesión</button>
+                <button onclick="showRegister()">Registrarse</button>
+            </div>
+            <div class="user-info hidden" id="user-info">
+                <span id="welcome-message"></span>
+                <button class="btn" style="background: #e91e63; padding: 5px 10px;" onclick="logout()"><i class="fa fa-sign-out-alt"></i> Salir</button>
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        <section id="hero-view" class="hero-section">
+            <div class="hero-content">
+                <h1>Conecta. Enseña. Crece.</h1>
+                <p>La plataforma moderna para una educación sin límites. Trabajos, tareas y comunicación directa.</p>
+                <button class="btn" onclick="showRegister()">¡Únete Hoy!</button>
+                <br>
+                <br>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Hf-47kSvkHc?si=UcKoKACnR2H5D2n1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<br>
+            </div>
+
+        </section>
+
+        <section id="auth-view" class="hidden">
+            <div class="auth-modal">
+                <h2 id="auth-title">Iniciar Sesión</h2>
+                <form id="auth-form">
+                    <div class="form-group">
+                        <label for="auth-email">Correo Electrónico:</label>
+                        <input type="email" id="auth-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="auth-password">Contraseña:</label>
+                        <input type="password" id="auth-password" required>
+                    </div>
+                    <div class="form-group hidden" id="role-group">
+                        <label for="auth-role">Rol:</label>
+                        <select id="auth-role" required>
+                            <option value="teacher">Profesor</option>
+                            <option value="student">Estudiante</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn" id="auth-submit-btn" style="width: 100%;">Iniciar Sesión</button>
+                </form>
+                <div class="switch-auth">
+                    <span id="switch-text">¿No tienes cuenta?</span>
+                    <a href="#" id="switch-link" onclick="toggleAuthMode(event)">Regístrate</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard-view" class="hidden">
+            <h2 id="dashboard-title">Dashboard</h2>
+
+            <div class="dashboard-grid">
+                <div id="teacher-section" class="dashboard-card hidden">
+                    <h3>Gestión de Estudiantes (CRUD)</h3>
+                    <form id="add-student-form">
+                        <input type="hidden" id="student-id-input">
+                        <div class="form-group">
+                            <input type="text" id="student-name-input" placeholder="Nombre Estudiante" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="student-grade-input" required>
+                                <option value="" disabled selected>Grado</option>
+                                <option value="6to">6to Grado</option>
+                                <option value="7mo">7mo Grado</option>
+                                <option value="8vo">8vo Grado</option>
+                                <option value="9no">9no Grado</option>
+                                <option value="10mo">10mo Grado</option>
+                                <option value="11mo">11vo Grado</option>
+                                <option value="Universidad">Universidad</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="student-score-input" placeholder="Calificación (0-5)" min="0" max="5" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="url" id="student-photo-input" placeholder="URL Foto (ej: https://picsum.photos/50)" value="https://picsum.photos/50/50?random=1">
+                        </div>
+                        <button type="submit" class="btn" style="background: #00bcd4;">Agregar/Actualizar Estudiante</button>
+                    </form>
+
+                    <h4>Lista de Estudiantes</h4>
+                    <ul id="student-list">
+                        </ul>
+                </div>
+
+                <div id="tasks-section" class="dashboard-card">
+                    <h3>Trabajos y Tareas</h3>
+                    <ul id="task-list">
+                        </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // ====================================
+        // ========== DATA & CONFIG ===========
+        // ====================================
+
+        // Simulación de Base de Datos Virtual (LocalStorage)
+        const DB_KEY_USERS = 'teacherAppUsers';
+        const DB_KEY_TASKS = 'teacherAppTasks';
+        const DB_KEY_STUDENTS = 'teacherAppStudents';
+        const CURRENT_USER_KEY = 'teacherAppCurrentUser';
+
+        const CORREO_ENVIO_TRABAJO = 'ronaldzagarra@gmail.com';
+
+        // Estructura de Datos Ficticios Iniciales
+        const initialUsers = [
+            { id: 'u1', email: 'profe@app.com', password: '123', role: 'teacher', name: 'Docente. Ronald Zagarra', photo: 'https://i.pravatar.cc/150?img=1' },
+            { id: 'u2', email: 'estudiante@app.com', password: '123', role: 'student', name: 'estudiante. Laura Pérez', photo: 'https://i.pravatar.cc/150?img=2' }
+        ];
+
+        const initialStudents = [
+            { id: 's1', name: 'Ana Mendoza', photo: 'https://i.pravatar.cc/150?img=3', grade: '10mo', score: 3 },
+            { id: 's2', name: 'Carlos López', photo: 'https://i.pravatar.cc/150?img=4', grade: '6to', score: 4 },
+            { id: 's3', name: 'Sofía Díaz', photo: 'https://i.pravatar.cc/150?img=5', grade: '8vo', score: 5 }
+        ];
+
+        const initialTasks = [
+            { id: 't1', title: 'Ensayo sobre IA', teacherName: 'Prof. Ronald Zagarra', teacherPhoto: 'https://i.pravatar.cc/150?img=1', review: 'Investigación sobre el futuro de la inteligencia artificial en la educación.', fileUrl: '#', fileName: 'IA_Ensayo.pdf' },
+            { id: 't2', title: 'Guía de Química Orgánica', teacherName: 'Prof. Luisa Márquez', teacherPhoto: 'https://i.pravatar.cc/150?img=6', review: 'Ejercicios prácticos de nomenclatura y reacciones orgánicas.', fileUrl: '#', fileName: 'Quimica_Guia.zip' }
+        ];
+
+        // ====================================
+        // ========== FUNCIONES CORE ==========
+        // ====================================
+
+        // Inicializar la "Base de Datos" en localStorage
+        function initializeDB() {
+            if (!localStorage.getItem(DB_KEY_USERS)) {
+                localStorage.setItem(DB_KEY_USERS, JSON.stringify(initialUsers));
+            }
+            if (!localStorage.getItem(DB_KEY_TASKS)) {
+                localStorage.setItem(DB_KEY_TASKS, JSON.stringify(initialTasks));
+            }
+            if (!localStorage.getItem(DB_KEY_STUDENTS)) {
+                localStorage.setItem(DB_KEY_STUDENTS, JSON.stringify(initialStudents));
+            }
+        }
+
+        // Obtener datos del Storage
+        const getUsers = () => JSON.parse(localStorage.getItem(DB_KEY_USERS) || '[]');
+        const setUsers = (users) => localStorage.setItem(DB_KEY_USERS, JSON.stringify(users));
+
+        const getStudents = () => JSON.parse(localStorage.getItem(DB_KEY_STUDENTS) || '[]');
+        const setStudents = (students) => localStorage.setItem(DB_KEY_STUDENTS, JSON.stringify(students));
+
+        const getTasks = () => JSON.parse(localStorage.getItem(DB_KEY_TASKS) || '[]');
+        const getCurrentUser = () => JSON.parse(localStorage.getItem(CURRENT_USER_KEY) || 'null');
+        const setCurrentUser = (user) => localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+
+        // ====================================
+        // ========== MANEJO DE VISTAS ========
+        // ====================================
+        const views = {
+            hero: document.getElementById('hero-view'),
+            auth: document.getElementById('auth-view'),
+            dashboard: document.getElementById('dashboard-view')
+        };
+
+        const authElements = {
+            title: document.getElementById('auth-title'),
+            submitBtn: document.getElementById('auth-submit-btn'),
+            roleGroup: document.getElementById('role-group'),
+            switchText: document.getElementById('switch-text'),
+            switchLink: document.getElementById('switch-link'),
+            form: document.getElementById('auth-form')
+        };
+
+        const headerElements = {
+            authButtons: document.getElementById('auth-buttons'),
+            userInfo: document.getElementById('user-info'),
+            welcomeMessage: document.getElementById('welcome-message')
+        };
+
+        const dashboardElements = {
+            title: document.getElementById('dashboard-title'),
+            teacherSection: document.getElementById('teacher-section'),
+            studentList: document.getElementById('student-list'),
+            taskList: document.getElementById('task-list')
+        };
+
+        // Función principal para cambiar de vista
+        function switchView(activeView) {
+            Object.values(views).forEach(view => view.classList.add('hidden'));
+            if (activeView && views[activeView]) {
+                views[activeView].classList.remove('hidden');
+            }
+        }
+
+        function showLogin() {
+            authElements.title.textContent = 'Iniciar Sesión';
+            authElements.submitBtn.textContent = 'Iniciar Sesión';
+            authElements.roleGroup.classList.add('hidden');
+            authElements.switchText.textContent = '¿No tienes cuenta?';
+            authElements.switchLink.textContent = 'Regístrate';
+            authElements.form.setAttribute('data-mode', 'login');
+            authElements.form.reset();
+            switchView('auth');
+        }
+
+        function showRegister() {
+            authElements.title.textContent = 'Registrarse';
+            authElements.submitBtn.textContent = 'Registrarse';
+            authElements.roleGroup.classList.remove('hidden');
+            authElements.switchText.textContent = '¿Ya tienes cuenta?';
+            authElements.switchLink.textContent = 'Inicia Sesión';
+            authElements.form.setAttribute('data-mode', 'register');
+            authElements.form.reset();
+            switchView('auth');
+        }
+
+        function toggleAuthMode(event) {
+            event.preventDefault();
+            const currentMode = authElements.form.getAttribute('data-mode');
+            if (currentMode === 'login') {
+                showRegister();
+            } else {
+                showLogin();
+            }
+        }
+
+        function renderDashboard() {
+            const user = getCurrentUser();
+            if (!user) {
+                switchView('hero');
+                return;
+            }
+
+            // Actualizar Header
+            headerElements.authButtons.classList.add('hidden');
+            headerElements.userInfo.classList.remove('hidden');
+            headerElements.welcomeMessage.textContent = `Hola, ${user.name.split(' ')[0]} (${user.role === 'teacher' ? 'Profesor' : 'Estudiante'})`;
+
+            // Configurar Dashboard según el rol
+            dashboardElements.title.textContent = `Dashboard de ${user.role === 'teacher' ? 'Profesor' : 'Estudiante'}`;
+            
+            if (user.role === 'teacher') {
+                dashboardElements.teacherSection.classList.remove('hidden');
+                renderStudentList();
+            } else {
+                dashboardElements.teacherSection.classList.add('hidden');
+            }
+
+            renderTaskList(user.role);
+            switchView('dashboard');
+        }
+
+        // ====================================
+        // ======== LÓGICA DE USUARIOS ========
+        // ====================================
+
+        function login(email, password) {
+            const users = getUsers();
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                setCurrentUser(user);
+                alert(`¡Bienvenido, ${user.name}!`);
+                renderDashboard();
+            } else {
+                alert('Credenciales incorrectas. Inténtalo de nuevo.');
+            }
+        }
+
+        function register(email, password, role) {
+            const users = getUsers();
+            if (users.some(u => u.email === email)) {
+                alert('Ya existe un usuario con este correo.');
+                return;
+            }
+
+            const newUser = {
+                id: 'u' + (users.length + 1),
+                email,
+                password,
+                role,
+                name: email.split('@')[0], // Nombre ficticio simple
+                photo: `https://i.pravatar.cc/150?img=${users.length + 10}`
+            };
+
+            users.push(newUser);
+            setUsers(users);
+            alert('Registro exitoso. ¡Inicia sesión ahora!');
+            showLogin();
+        }
+
+        function logout() {
+            setCurrentUser(null);
+            alert('Sesión cerrada.');
+            headerElements.authButtons.classList.remove('hidden');
+            headerElements.userInfo.classList.add('hidden');
+            switchView('hero');
+        }
+
+       // Manejador del Formulario de Autenticación
+document.getElementById('auth-form').addEventListener('submit', async function(e) { 
+    e.preventDefault();
+    const mode = this.getAttribute('data-mode');
+    const email = document.getElementById('auth-email').value;
+    const password = document.getElementById('auth-password').value;
+    const role = document.getElementById('auth-role').value;
+
+    if (mode === 'login') {
+        await login(email, password); // usar await
+    } else {
+        await register(email, password, role); // usar await
+    }
+});
+
+        // ====================================
+        // ======== LÓGICA DE ESTUDIANTES (CRUD) ========
+        // ====================================
+
+        function renderStudentList() {
+            const students = getStudents();
+            const list = dashboardElements.studentList;
+            list.innerHTML = '';
+
+            if (students.length === 0) {
+                list.innerHTML = '<p style="text-align: center; margin-top: 20px;">No hay estudiantes registrados.</p>';
+                return;
+            }
+
+            students.forEach(student => {
+                const li = document.createElement('li');
+                li.className = 'student-item';
+                li.innerHTML = `
+                    <img src="${student.photo}" alt="${student.name}">
+                    <div class="student-info">
+                        <strong>${student.name}</strong>
+                        <span>Grado: ${student.grade} | Calificación: ${student.score}</span>
+                    </div>
+                    <div class="student-actions">
+                        <button class="edit" onclick="editStudent('${student.id}')"><i class="fa fa-edit"></i> Editar</button>
+                        <button class="delete" onclick="deleteStudent('${student.id}')"><i class="fa fa-trash"></i> Eliminar</button>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        document.getElementById('add-student-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = document.getElementById('student-id-input').value;
+            const name = document.getElementById('student-name-input').value;
+            const grade = document.getElementById('student-grade-input').value;
+            const score = parseInt(document.getElementById('student-score-input').value);
+            const photo = document.getElementById('student-photo-input').value;
+
+            const students = getStudents();
+
+            if (id) {
+                // UPDATE
+                const index = students.findIndex(s => s.id === id);
+                if (index > -1) {
+                    students[index] = { id, name, grade, score, photo };
+                    alert('Estudiante actualizado con éxito.');
+                }
+            } else {
+                // CREATE
+                const newId = 's' + (students.length ? Math.max(...students.map(s => parseInt(s.id.substring(1)))) + 1 : 1);
+                const newStudent = { id: newId, name, grade, score, photo };
+                students.push(newStudent);
+                alert('Estudiante agregado con éxito.');
+            }
+
+            setStudents(students);
+            renderStudentList();
+            this.reset();
+            document.getElementById('student-id-input').value = ''; // Limpiar ID oculto
+        });
+
+        function editStudent(id) {
+            const student = getStudents().find(s => s.id === id);
+            if (student) {
+                document.getElementById('student-id-input').value = student.id;
+                document.getElementById('student-name-input').value = student.name;
+                document.getElementById('student-grade-input').value = student.grade;
+                document.getElementById('student-score-input').value = student.score;
+                document.getElementById('student-photo-input').value = student.photo;
+                alert(`Editando estudiante: ${student.name}`);
+            }
+        }
+
+        function deleteStudent(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar este estudiante?')) {
+                const students = getStudents().filter(s => s.id !== id);
+                setStudents(students);
+                renderStudentList();
+                alert('Estudiante eliminado.');
+            }
+        }
+
+        // ====================================
+        // ========= LÓGICA DE TAREAS =========
+        // ====================================
+
+        function renderTaskList(userRole) {
+            const tasks = getTasks();
+            const list = dashboardElements.taskList;
+            list.innerHTML = '';
+
+            if (tasks.length === 0) {
+                list.innerHTML = '<p style="text-align: center; margin-top: 20px;">No hay trabajos o tareas disponibles.</p>';
+                return;
+            }
+
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.className = 'task-item';
+                li.innerHTML = `
+                    <h4><i class="fa fa-book-open"></i> ${task.title}</h4>
+                    <p style="font-style: italic; font-size: 0.9em; margin-bottom: 5px;">${task.review}</p>
+                    <div class="teacher-info">
+                        <img src="${task.teacherPhoto}" alt="Maestro">
+                        <span>Maestro: ${task.teacherName}</span>
+                    </div>
+                    <div class="task-details">
+                        <span style="font-weight: 600;">Archivo: ${task.fileName}</span>
+                        <div>
+                            ${userRole === 'student' ? 
+                                `<a href="mailto:${CORREO_ENVIO_TRABAJO}?subject=Envío de Trabajo: ${task.title} - ${getCurrentUser().name}" class="btn send-work-btn" style="padding: 5px 10px;">
+                                    <i class="fa fa-upload"></i> Enviar Trabajo
+                                </a>` : ''
+                            }
+                            <a href="${task.fileUrl}" download="${task.fileName}" class="btn download-btn" style="padding: 5px 10px;">
+                                <i class="fa fa-download"></i> Descargar
+                            </a>
+                        </div>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        // ====================================
+        // ======= INICIALIZACIÓN GLOBAL ======
+        // ====================================
+        
+        // Ejecutar al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeDB(); // Asegurar datos iniciales
+            const currentUser = getCurrentUser();
+
+            if (currentUser) {
+                renderDashboard(); // Ir al dashboard si ya hay sesión
+            } else {
+                
+            }
+        });
+
+    </script>
+</body>
+</html>
